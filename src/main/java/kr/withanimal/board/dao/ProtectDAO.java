@@ -9,7 +9,7 @@ public interface ProtectDAO {
 	// 1. 개수 구하기
 	int selectCount(HashMap<String, Object> map);
 	
-	// 2. 1개 구하기
+	// 2. 1개 구하기 
 	ProtectVO selectByIdx(int content_idx);
 	 
 	// 3. 1페이지 얻기

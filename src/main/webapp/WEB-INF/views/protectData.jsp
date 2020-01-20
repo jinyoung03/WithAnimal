@@ -7,7 +7,7 @@
 	<title>HOME</title>
 </head>
 <body>
-	<h1> 
+	<h1>  
 		동물 데이터 확인
 	</h1> 
 	<form action="saveXml">

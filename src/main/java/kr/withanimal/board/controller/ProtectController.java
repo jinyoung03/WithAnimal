@@ -121,7 +121,7 @@ public class ProtectController {
 		model.addAttribute("pageSize",pageSize);
 		model.addAttribute("blockSize",blockSize);
 		return "protectResult";
-	}
+	} 
 	
 	@RequestMapping(value="/board/protectResult", method=RequestMethod.GET) 
 	public String protectResultGet()  {

@@ -125,7 +125,7 @@ public class ProtectService {
 		List<ProtectVO> list = protectDAO.selectList(map);
 		paging.setList(list);
 		return paging;
-	}		
+	}	 	
 	 
 	public List<ProtectVO> getPage(List<ProtectVO> list, int startNo, int endNo){
 		List<ProtectVO> currentPage = new ArrayList<ProtectVO>();

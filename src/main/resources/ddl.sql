@@ -86,7 +86,7 @@ CREATE SEQUENCE withanimal_protect_idx_seq;
 				
 DELETE FROM WITHANIMAL_PROTECT;
 
-insert into withanimal_protect 
+insert into withanimal_protect  
 		values (withanimal_protect_idx_seq.nextval, '2018(년생)', '경기도 양주시 남면 상수리 410-1', '한국동물구조관리협회', '031-867-9119',  
 				'이재웅', '검줄/회', '411309201900610', 'http://www.animal.go.kr/files/shelter/2019/12/202001021101185_s.jpg', '20191231',
 				'덕릉로62길 89 창3동주민센터 인근', '[고양이] 한국 고양이', 'N', '20200113', '서울-도봉-2020-00001',

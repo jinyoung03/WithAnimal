@@ -7,7 +7,7 @@
 	<select id="selectCount" resultType="int" parameterType="HashMap">
 		<![CDATA[ 
 			select count(*) from withanimal_protect WHERE HAPPENDT>=#{bgnde} and HAPPENDT<=#{endde}    
-		]]>                   
+		]]>
 	</select>
 	 
 	<!-- 2. 1개 구하기 -->
