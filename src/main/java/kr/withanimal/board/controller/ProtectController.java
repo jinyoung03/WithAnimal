@@ -55,7 +55,7 @@ public class ProtectController {
 		System.out.println("ProtectController bgnde:  "+bgnde);
 		System.out.println("ProtectController endde:  "+endde);
 		System.out.println("----------------------------------------------------------------------------");
-		Date day = new Date(); 
+		Date day = new Date();
 		SimpleDateFormat format1 = new SimpleDateFormat ("yyyyMM");
 		SimpleDateFormat format2 = new SimpleDateFormat ("yyyyMMdd");
 		

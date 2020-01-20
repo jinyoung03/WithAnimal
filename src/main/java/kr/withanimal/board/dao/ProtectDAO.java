@@ -11,7 +11,7 @@ public interface ProtectDAO {
 	
 	// 2. 1개 구하기
 	ProtectVO selectByIdx(int content_idx);
-	 
+	
 	// 3. 1페이지 얻기
 	List<ProtectVO> selectList(HashMap<String, Object> map);
 	
