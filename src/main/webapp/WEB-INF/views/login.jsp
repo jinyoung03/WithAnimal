@@ -63,7 +63,9 @@
 	    <section class="login-form">
 		<form role="login" action="${pageContext.request.contextPath }/loginOk" method="post" onsubmit="return fromCheck()">
 			<section>
-				<img src="${pageContext.request.contextPath }/resources/images/logo.png" alt="이미지" />
+				<a href="${pageContext.request.contextPath }/" >
+					<img src="${pageContext.request.contextPath }/resources/images/logo.png" alt="이미지"/>
+				</a>
 			</section>
 			
 			<label>이메일</label>			

@@ -29,12 +29,13 @@ CREATE TABLE withanimal_lost(
 	u_id			VARCHAR2(50)	NOT NULL,	
 	u_pw			VARCHAR2(50)	NOT NULL,	
 	u_name			VARCHAR2(50)	NOT NULL,	
-	subject			VARCHAR2(200)	NULL,	
-	content			VARCHAR2(500)	NULL,	
+	subject			VARCHAR2(400)	NULL,	
+	content			VARCHAR2(3000)	NULL,	
 	content_regdate	TIMESTAMP		NULL,	
-	ip				VARCHAR2(20)	NULL	
+	ip				VARCHAR2(40)	NULL	
 );					
 SELECT * FROM withanimal_lost;	
+DROP SEQUENCE withanimal_lost_idx_seq;
 CREATE SEQUENCE withanimal_lost_idx_seq;	
 
 INSERT INTO withanimal_lost VALUES (withanimal_lost_idx_seq.nextval,'hgd@naver.com','123456','홍길동','게시물 등록합니다.','일빠다~~~',SYSDATE,'');

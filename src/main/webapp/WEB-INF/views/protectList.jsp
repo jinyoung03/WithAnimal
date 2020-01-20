@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+	<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -153,10 +153,14 @@
 											</p>
 											<p class="thmb_span" style="cursor: pointer;">
 												<a href="#" class="btn btn-md u-btn-primary k-btn-hover g-rounded-50">${vo.processState }</a>
+												<span title="${vo.kindCd }">
 												<c:set var="noticeNo" value="${vo.noticeNo }"/>
 													${fn:substring(noticeNo,3,5)} | 
 												<c:set var="kindCd" value="${vo.kindCd }"/>
-													${fn:substringAfter(kindCd," ")}
+												<c:set var="kindCd" value='${fn:split(kindCd," ")[1]}'/>
+												<c:set var="kindCd" value='${fn:split(kindCd,"-")[0]}'/>
+													${kindCd }
+												</span>
 											</p>
 										</c:if>	
 										</li>
