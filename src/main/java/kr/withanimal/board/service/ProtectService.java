@@ -126,7 +126,7 @@ public class ProtectService {
 		paging.setList(list);
 		return paging;
 	}		
-	
+	 
 	public List<ProtectVO> getPage(List<ProtectVO> list, int startNo, int endNo){
 		List<ProtectVO> currentPage = new ArrayList<ProtectVO>();
 //		System.out.println("ProtectService getPage "+list);

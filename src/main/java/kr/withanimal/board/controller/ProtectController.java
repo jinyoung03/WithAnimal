@@ -126,7 +126,7 @@ public class ProtectController {
 	@RequestMapping(value="/board/protectResult", method=RequestMethod.GET) 
 	public String protectResultGet()  {
 		return "redirect:/board/protectLis";
-	}
+	} 
 
 	@RequestMapping(value="/board/protectCat") 
 	public String protectCat(Model model, @RequestParam(required=false) Integer p,@RequestParam(required=false) Integer s,@RequestParam(required=false) Integer b

@@ -9,7 +9,7 @@
 			select count(*) from withanimal_protect WHERE HAPPENDT>=#{bgnde} and HAPPENDT<=#{endde}    
 		]]>                   
 	</select>
-	
+	 
 	<!-- 2. 1개 구하기 -->
 	<select id="selectByIdx" parameterType="int" resultType="ProtectVO">
 		select * from withanimal_protect where content_idx=#{content_idx}
