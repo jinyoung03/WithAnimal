@@ -48,12 +48,10 @@ public class ProtectController {
 		return "redirect:/board/readJSON";	
 	}*/
 	@RequestMapping(value="/board/protectList")
-	public String readJson(Model model, @RequestParam(required=false) Integer p,@RequestParam(required=false) Integer s,@RequestParam(required=false) Integer b
+	public String readJson(Model model, @RequestParam(required=false) Integer p
 			,@RequestParam(required=false) String bgnde, @RequestParam(required=false) String endde, @RequestParam(required=false) String upkind) 
 			throws MalformedURLException, IOException{
 		int currentPage = p==null ? 1 : p;
-		int pageSize = s==null ? 25 : s;
-		int blockSize = b==null ? 10 : b;
 		System.out.println("ProtectController bgnde:  "+bgnde);
 		System.out.println("ProtectController endde:  "+endde);
 		System.out.println("----------------------------------------------------------------------------");
@@ -61,12 +59,12 @@ public class ProtectController {
 		SimpleDateFormat format1 = new SimpleDateFormat ("yyyyMM");
 		SimpleDateFormat format2 = new SimpleDateFormat ("yyyyMMdd");
 		
-		if(bgnde==null||bgnde.trim().equals("")) bgnde =format1.format(day)+"01";
-		if(endde==null||endde.trim().equals("")) endde =format2.format(day);
-//		if(bgnde==null||bgnde.trim().equals("")) bgnde ="20191201";
-//		if(endde==null||endde.trim().equals("")) endde ="20191231";
+//		if(bgnde==null||bgnde.trim().equals("")) bgnde =format1.format(day)+"01";
+//		if(endde==null||endde.trim().equals("")) endde =format2.format(day);
+		if(bgnde==null||bgnde.trim().equals("")) bgnde ="20191201";
+		if(endde==null||endde.trim().equals("")) endde ="20191231";
 				
-		Paging<ProtectVO> paging = protectService.selectList(bgnde, endde, upkind, currentPage, pageSize, blockSize);
+		Paging<ProtectVO> paging = protectService.selectList(bgnde, endde, upkind, currentPage, 25, 10);
 		model.addAttribute("paging",paging);		
 		model.addAttribute("bgnde",bgnde);		
 		model.addAttribute("endde",endde);		
@@ -182,6 +180,28 @@ public class ProtectController {
 		model.addAttribute("upkind",upkind);	
 
 		return "protectList";
+	}
+	
+
+	@RequestMapping(value="/board/protectData")
+	public String insertData() { 
+		return "protectData";	
+	}
+	
+	// 데이터 추가
+	@RequestMapping(value="/board/saveXml")
+	public String insertData(Model model, @RequestParam(required=false) String bgnde, @RequestParam(required=false) String endde) 
+			throws MalformedURLException, IOException{
+		System.out.println("ProtectController insertData bgnde : "+bgnde+"endde : "+endde);
+		if(bgnde==null||endde==null) return "redirect:/board/protectData";
+		System.out.println("ProtectController insertData bgnde:  "+bgnde);
+		System.out.println("ProtectController insertData endde:  "+endde);
+		System.out.println("----------------------------------------------------------------------------");
+		
+		protectService.saveXml(bgnde, endde);
+		
+		System.out.println("insertData xml파일 생성 완료");
+		return "redirect:/board/protectData";
 	}
 	
 }

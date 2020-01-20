@@ -4,8 +4,10 @@
 	<mapper namespace="kr.withanimal.board.dao.ProtectDAO">
 	
 	<!-- 1. 개수 구하기 -->
-	<select id="selectCount" resultType="int">
-		select count(*) from withanimal_protect
+	<select id="selectCount" resultType="int" parameterType="HashMap">
+		<![CDATA[ 
+			select count(*) from withanimal_protect WHERE HAPPENDT>=#{bgnde} and HAPPENDT<=#{endde}    
+		]]>                   
 	</select>
 	
 	<!-- 2. 1개 구하기 -->
@@ -21,9 +23,18 @@
 		from 
 			(select rownum rnum, R.* 
 			 from 
-				(select * from withanimal_protect order by content_idx DESC) R
+				(select * from withanimal_protect WHERE HAPPENDT>=#{bgnde} and HAPPENDT<=#{endde} order by content_idx DESC) R
 			 where rownum<=${endNo}) Q                            
 		where rnum>=${startNo}      
 		]]>                             
 	</select>
+	<insert id="insert" parameterType="ProtectVO">
+	    insert into withanimal_protect 
+		values (withanimal_protect_idx_seq.nextval, #{age}, #{careAddr}, #{careNm}, #{careTel},  
+				#{chargeNm}, #{colorCd}, #{desertionNo}, #{filename}, #{happenDt},
+				#{happenPlace}, #{kindCd}, #{neuterYn}, #{noticeEdt}, #{noticeNo},
+				#{noticeSdt}, #{officetel}, #{orgNm}, #{popfile}, #{processState},
+				#{sexCd}, #{specialMark}, #{weight}
+		)		
+	</insert>
 	</mapper>

@@ -134,19 +134,19 @@
 				</tbody>
 				<tbody>
 					<div class="">
-						<c:if test="${paging.list==null }">
+						<c:if test="${paging.totalCount==0 }">
 							<ul class="sub_photo">
 								<li class="li-photo">
 									<p class="thmb">게시된 글이 없습니다.</p>
 								</li>
 							</ul>
 						</c:if>
-						<c:if test="${paging.list!=null }">
+						<c:if test="${paging.totalCount!=0 }">
 							<div class="">
 								<c:forEach var="vo" items="${paging.list }" varStatus="vs">
 									<ul class="sub_photo">
 										<li class="li-photo">
-										<c:if test="${vo.desertionNo!=null&&vo.popfile!=null }">
+										<c:if test="${not empty vo.desertionNo && not empty vo.popfile}">
 											<p class="thmb">
 												<img id="popfile${vo.content_idx }" src="${vo.popfile}" alt="${vo.kindCd }" onclick='sendPost("protectResult",{"p":${paging.currentPage},"b":${paging.blockSize },"s":${paging.pageSize }
 												,"vo":${vo }});'>
