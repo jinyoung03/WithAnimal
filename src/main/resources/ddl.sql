@@ -94,5 +94,5 @@ insert into withanimal_protect
 				'M', '얼굴부종.좌안안구돌출및동공축동.우안안구출혈.비/구강출혈.하악골절.꼬리골절.하악질/경계/발버둥침.', '5(Kg)'
 		);
 
-SELECT * FROM withanimal_protect WHERE HAPPENDT >= '20191228' ORDER BY CONTENT_IDX;
+SELECT * FROM withanimal_protect WHERE HAPPENDT >= '20191228' ORDER BY CONTENT_IDX; 
 
