@@ -182,7 +182,7 @@
 	  
 				<c:if test="${paging.startPage>1 }">
 					<li class='page-item'>
-						<a class='page-link' href='javascript:sendPost("protectList",{"p":"${paging.startPage-1}","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}"});' aria-label='Previous'>
+						<a class='page-link' href='javascript:sendPost("protectList",{"p":"${paging.startPage-1}","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}","processState":"${processState}"});' aria-label='Previous'>
 						<span aria-hidden='true'>&laquo;</span>
 						<span class='sr-only'>Previous</span>
 						</a>
@@ -195,14 +195,14 @@
 			    		<li class='page-item active'><span class='page-link'>${i}</span></li>
 			    	</c:when>
 			    	<c:otherwise>
-			    		<li class='page-item'><a class='page-link' href='javascript:sendPost("protectList",{"p":"${i}","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}"});'>${i}</a></li>
+			    		<li class='page-item'><a class='page-link' href='javascript:sendPost("protectList",{"p":"${i}","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}","processState":"${processState}"});'>${i}</a></li>
 			    	</c:otherwise>
 			    	</c:choose>
 			    </c:forEach>
 	
 				<c:if test="${paging.endPage<paging.totalPage }">
 					<li class='page-item'>
-					<a class='page-link' href='javascript:sendPost("protectList",{"p":"${paging.endPage+1}","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}"});' aria-label='Next'>
+					<a class='page-link' href='javascript:sendPost("protectList",{"p":"${paging.endPage+1}","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}","processState":"${processState}"});' aria-label='Next'>
 						<span aria-hidden='true'>&raquo;</span>
 						<span class='sr-only'>Next</span>
 					</a>
@@ -239,8 +239,9 @@
               <span class="font-weight-bold d-inline-block g-width-120">발견장소</span> ${vo.happenPlace } <br>
               <span class="font-weight-bold d-inline-block g-width-120">종</span> ${vo.kindCd } <br>
               <span class="font-weight-bold d-inline-block g-width-120">나이</span> ${vo.age } <br>
-              <span class="font-weight-bold d-inline-block g-width-120">성별 / 몸무게</span> ${vo.sexCd } / ${vo.weight }<br> <br> 
-              <span class="font-weight-bold d-inline-block g-width-120">${vo.specialMark }</span> 
+              <span class="font-weight-bold d-inline-block g-width-120">성별 / 몸무게</span> ${vo.sexCd } / ${vo.weight }<br>
+              <span class="font-weight-bold d-inline-block g-width-120">특이사항 </span> ${vo.specialMark }<br><br> 
+              <span class="font-weight-bold d-inline-block g-width-120">연락처 : ${vo.careNm } / ${vo.careTel }</span> 
               </div>
             </div>
           </div>

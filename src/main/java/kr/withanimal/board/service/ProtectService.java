@@ -128,7 +128,7 @@ public class ProtectService {
 		
 		if(state == null) processState ="";
 		else if(state.equals("end")) processState ="종료";
-		else if(state.equals("end")) processState ="보호중";
+		else if(state.equals("ongoing")) processState ="보호중";
 		else processState = "";
 		
 		map.put("processState", processState);
