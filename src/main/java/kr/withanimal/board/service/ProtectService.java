@@ -113,13 +113,30 @@ public class ProtectService {
     }	
     
 	// 1. 목록보기
-	public Paging<ProtectVO> selectList(String bgnde,String endde,String upkind, int currentPage, int pageSize,int blockSize) throws MalformedURLException, IOException{
+	public Paging<ProtectVO> selectList(String bgnde,String endde, String kind,String state
+			,int currentPage) throws MalformedURLException, IOException{
+		String kindCd,processState;
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("bgnde", bgnde);
 		map.put("endde", endde);
+				
+		if(kind==null) kindCd="";
+		else if(kind.equals("dog")) kindCd="[개]";
+		else if(kind.equals("cat")) kindCd="[고양이]";
+		else if(kind.equals("etc")) kindCd="[기타축종]";
+		else kindCd="";
+		
+		if(state == null) processState ="";
+		else if(state.equals("end")) processState ="종료";
+		else if(state.equals("end")) processState ="보호중";
+		else processState = "";
+		
+		map.put("processState", processState);
+		map.put("kindCd", kindCd);
+		
 		int totalCount = protectDAO.selectCount(map);
 
-		Paging<ProtectVO> paging = new Paging<ProtectVO>(totalCount, currentPage, pageSize, blockSize);		
+		Paging<ProtectVO> paging = new Paging<ProtectVO>(totalCount, currentPage, 24, 10);		
 		map.put("startNo", paging.getStartNo());
 		map.put("endNo", paging.getEndNo());
 		List<ProtectVO> list = protectDAO.selectList(map);
@@ -141,7 +158,7 @@ public class ProtectService {
 	}
 	
 	// 1개 가져오기
-	public ProtectVO selectByIdx(String bgnde,String endde,int idx) throws MalformedURLException, IOException{	
+	public ProtectVO selectByIdx(int idx) throws MalformedURLException, IOException{	
 		return protectDAO.selectByIdx(idx);
 	}
 	

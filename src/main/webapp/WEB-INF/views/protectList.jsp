@@ -91,33 +91,33 @@
 					<div class="">
 					<ul class="list-inline">
 						<li class="list-li-left">
-							<a href="${pageContext.request.contextPath }/board/protectList" class="g-text-underline-hover">전체</a>
+							<a href='javascript:sendPost("protectList",{"p":"1","bgnde":"${bgnde}","endde":"${endde}","processState":"${processState}"});' class="g-text-underline-hover">전체</a>
 						</li>
 						<li class="list-li-left">|</li>
 						<li class="list-li-left">
-							<a href="${pageContext.request.contextPath }/board/protectDog" class="g-text-underline-hover">개</a></li>
+							<a href='javascript:sendPost("protectList",{"p":"1","bgnde":"${bgnde}","endde":"${endde}","kindCd":"dog","processState":"${processState}"});' class="g-text-underline-hover">개</a></li>
 						<li class="list-li-left">|</li>
 						<li class="list-li-left">
-							<a href="${pageContext.request.contextPath }/board/protectCat" class="g-text-underline-hover">고양이</a>
+							<a href='javascript:sendPost("protectList",{"p":"1","bgnde":"${bgnde}","endde":"${endde}","kindCd":"cat","processState":"${processState}"});' class="g-text-underline-hover">고양이</a>
 						</li>	
 						<li class="list-li-left">|</li>
 						<li class="list-li-left">
-							<a href="#" class="g-text-underline-hover">기타</a>
+							<a href='javascript:sendPost("protectList",{"p":"1","bgnde":"${bgnde}","endde":"${endde}","kindCd":"etc","processState":"${processState}"});'  class="g-text-underline-hover">기타</a>
 						</li>	
 					</ul>
 				</div>
 				<div class="">
 					<ul class="list-inline">
 						<li class="list-li-right">
-							<a href="#" class="g-text-underline-hover">보호중</a>
+							<a href='javascript:sendPost("protectList",{"p":"1","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}","processState":"ongoing"});' class="g-text-underline-hover">보호중</a>
 						</li>
 						<li class="list-li-right">|</li>
 						<li class="list-li-right">
-							<a href="#" class="g-text-underline-hover">공고중</a>
+							<a href='javascript:sendPost("protectList",{"p":"1","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}","processState":"end"});' class="g-text-underline-hover">종료</a>
 						</li>
 						<li class="list-li-right">|</li>
 						<li class="list-li-right">
-							<a href="#" class="g-text-underline-hover">전체</a>
+							<a href='javascript:sendPost("protectList",{"p":"1","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}"});' class="g-text-underline-hover">전체</a>
 						</li>
 					</ul>
 				</div>	
@@ -126,9 +126,9 @@
 					<div class="row_content">
 						<form action="protectList">
 							<span>공고 시작일 : </span>
-							<input type="text" id="bgnde" name="bgnde" placeholder="검색시작일(20200101)">
-							<input type="text" id="endde" name="endde" placeholder="검색종료일(20200131)">
-							<button type="submit" id="btn_search">검색</button>
+							<input type="text" id="bgnde" name="bgnde" value="${bgnde}" placeholder="검색시작일(20200101)">
+							<input type="text" id="endde" name="endde" value="${endde}"  placeholder="검색종료일(20200131)">
+							<input type="submit" id="btn_search" value="검색">
 						</form>
 					</div>
 				</tbody>
@@ -145,25 +145,26 @@
 							<div class="">
 								<c:forEach var="vo" items="${paging.list }" varStatus="vs">
 									<ul class="sub_photo">
-										<li class="li-photo">
 										<c:if test="${not empty vo.desertionNo && not empty vo.popfile}">
+										<li class="li-photo">
+          								<a class="portfolio-link" data-toggle="modal" href="#portfolioModal${vo.content_idx }">
 											<p class="thmb">
-												<img id="popfile${vo.content_idx }" src="${vo.popfile}" alt="${vo.kindCd }" onclick='sendPost("protectResult",{"p":${paging.currentPage},"b":${paging.blockSize },"s":${paging.pageSize }
-												,"vo":${vo }});'>
+												<img id="popfile${vo.content_idx }" src="${vo.popfile}" alt="${vo.kindCd }" >
 											</p>
 											<p class="thmb_span" style="cursor: pointer;">
 												<a href="#" class="btn btn-md u-btn-primary k-btn-hover g-rounded-50">${vo.processState }</a>
 												<span title="${vo.kindCd }">
 												<c:set var="noticeNo" value="${vo.noticeNo }"/>
-													${fn:substring(noticeNo,3,5)} | 
-												<c:set var="kindCd" value="${vo.kindCd }"/>
-												<c:set var="kindCd" value='${fn:split(kindCd," ")[1]}'/>
-												<c:set var="kindCd" value='${fn:split(kindCd,"-")[0]}'/>
-													${kindCd }
+													${fn:substring(noticeNo,3,5)}  
+												<c:set var="vokindCd" value="${vo.kindCd }"/>
+												<c:set var="vokindCd" value='${fn:split(vokindCd," ")[1]}'/>
+												<c:set var="vokindCd" value='${fn:split(vokindCd,"-")[0]}'/>
+													| ${vokindCd }
 												</span>
 											</p>
+											</a>
+											</li>
 										</c:if>	
-										</li>
 									</ul>
 								</c:forEach>
 							</div>
@@ -181,7 +182,7 @@
 	  
 				<c:if test="${paging.startPage>1 }">
 					<li class='page-item'>
-						<a class='page-link' href='javascript:sendPost("?",{"p":"${paging.startPage-1}","s":"${paging.pageSize}","b":"${paging.blockSize}"});' aria-label='Previous'>
+						<a class='page-link' href='javascript:sendPost("protectList",{"p":"${paging.startPage-1}","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}"});' aria-label='Previous'>
 						<span aria-hidden='true'>&laquo;</span>
 						<span class='sr-only'>Previous</span>
 						</a>
@@ -194,14 +195,14 @@
 			    		<li class='page-item active'><span class='page-link'>${i}</span></li>
 			    	</c:when>
 			    	<c:otherwise>
-			    		<li class='page-item'><a class='page-link' href='javascript:sendPost("?",{"p":"${i}","s":"${paging.pageSize}","b":"${paging.blockSize}"});'>${i}</a></li>
+			    		<li class='page-item'><a class='page-link' href='javascript:sendPost("protectList",{"p":"${i}","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}"});'>${i}</a></li>
 			    	</c:otherwise>
 			    	</c:choose>
 			    </c:forEach>
 	
 				<c:if test="${paging.endPage<paging.totalPage }">
 					<li class='page-item'>
-					<a class='page-link' href='javascript:sendPost("?",{"p":"${paging.endPage+1}","s":"${paging.pageSize}","b":"${paging.blockSize}"});' aria-label='Next'>
+					<a class='page-link' href='javascript:sendPost("protectList",{"p":"${paging.endPage+1}","bgnde":"${bgnde}","endde":"${endde}","kindCd":"${kindCd}"});' aria-label='Next'>
 						<span aria-hidden='true'>&raquo;</span>
 						<span class='sr-only'>Next</span>
 					</a>
@@ -217,8 +218,38 @@
       </div>
 	</div>
   </section>
-
-
+  <c:if test="${paging.totalCount!=0 }">
+  <c:forEach var="vo" items="${paging.list }" varStatus="vs">
+  <!-- Modal 6 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal${vo.content_idx }" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+              <img id="popfile${vo.content_idx }" src="${vo.popfile}" alt="${vo.kindCd }" style="width: 80%"><br>
+              <span class="font-weight-bold d-inline-block g-width-120">공고번호</span> ${vo.noticeNo } <br>
+              <span class="font-weight-bold d-inline-block g-width-120">발견장소</span> ${vo.happenPlace } <br>
+              <span class="font-weight-bold d-inline-block g-width-120">종</span> ${vo.kindCd } <br>
+              <span class="font-weight-bold d-inline-block g-width-120">나이</span> ${vo.age } <br>
+              <span class="font-weight-bold d-inline-block g-width-120">성별 / 몸무게</span> ${vo.sexCd } / ${vo.weight }<br> <br> 
+              <span class="font-weight-bold d-inline-block g-width-120">${vo.specialMark }</span> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </c:forEach>
+  </c:if>
 		
 
   <!-- Footer -->
