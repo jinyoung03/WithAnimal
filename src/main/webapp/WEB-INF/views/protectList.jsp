@@ -88,7 +88,7 @@
         <div class="col-lg-12 text-center">
 			<table class="table table-hover">
 				<thead>
-					<div class="">
+					<div >
 					<ul class="list-inline">
 						<li class="list-li-left">
 							<a href='javascript:sendPost("protectList",{"p":"1","bgnde":"${bgnde}","endde":"${endde}","processState":"${processState}"});' class="g-text-underline-hover">전체</a>

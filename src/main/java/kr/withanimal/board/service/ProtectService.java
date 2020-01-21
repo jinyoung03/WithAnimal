@@ -132,7 +132,7 @@ public class ProtectService {
 		else processState = "";
 		
 		map.put("processState", processState);
-		map.put("kindCd", kindCd);
+		map.put("kindCd", kindCd);  
 		
 		int totalCount = protectDAO.selectCount(map);
 

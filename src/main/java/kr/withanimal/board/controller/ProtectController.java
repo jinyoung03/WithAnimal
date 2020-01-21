@@ -55,7 +55,7 @@ public class ProtectController {
 		int currentPage = p==null ? 1 : p;
 		System.out.println("ProtectController bgnde:  "+bgnde+", endde: "+endde);
 		System.out.println("ProtectController kindCd:  "+kindCd+" processState : "+processState);
-		System.out.println("----------------------------------------------------------------------------");
+		System.out.println("-----------------------------------------------------------------------------");
 		
 		Date day = new Date();
 		SimpleDateFormat format1 = new SimpleDateFormat ("yyyyMM");

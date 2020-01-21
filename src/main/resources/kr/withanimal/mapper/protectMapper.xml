@@ -28,7 +28,7 @@
 				 and KINDCD LIKE '${kindCd}%' AND PROCESSSTATE LIKE '${processState}%' order by content_idx) R
 			 where rownum<=${endNo}) Q                            
 		where rnum>=${startNo}      
-		]]>                             
+		]]>  
 	</select>
 	
 	<insert id="insert" parameterType="ProtectVO">
