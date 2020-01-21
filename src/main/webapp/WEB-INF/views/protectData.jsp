@@ -10,6 +10,9 @@
 	<h1>  
 		동물 데이터 확인
 	</h1> 
+	<form action="insertList">
+		<input type="submit" value="오늘 데이터 추가하기"/>
+	</form>
 	<form action="saveXml">
 		<input type="text" id="bgnde" name="bgnde" placeholder="20190101">
 		<input type="text" id="endde" name="endde" placeholder="20190101">

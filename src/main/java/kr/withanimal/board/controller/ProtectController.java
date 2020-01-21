@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.withanimal.board.service.ProtectService;
+import kr.withanimal.board.vo.BoardVO;
 import kr.withanimal.board.vo.Paging;
 import kr.withanimal.board.vo.ProtectVO;
+import kr.withanimal.member.vo.MemberVO;
 
 @Controller
 public class ProtectController {
@@ -103,9 +105,9 @@ public class ProtectController {
 		return "protectData";	
 	}
 	
-	// 데이터 추가
+	// XML 데이터 저장
 	@RequestMapping(value="/board/saveXml")
-	public String insertData(Model model, @RequestParam(required=false) String bgnde, @RequestParam(required=false) String endde) 
+	public String saveXml(Model model, @RequestParam(required=false) String bgnde, @RequestParam(required=false) String endde) 
 			throws MalformedURLException, IOException{
 		System.out.println("ProtectController insertData bgnde : "+bgnde+"endde : "+endde);
 		if(bgnde==null||endde==null) return "redirect:/board/protectData";
@@ -115,8 +117,23 @@ public class ProtectController {
 		
 		protectService.saveXml(bgnde, endde);
 		
-		System.out.println("insertData xml파일 생성 완료");
+		System.out.println("saveXml xml파일 생성 완료");
 		return "redirect:/board/protectData";
 	}
 	
+
+	
+	@RequestMapping(value = "/board/insertList")
+	public String insertList(HttpServletRequest request,@ModelAttribute ProtectVO protectVO,Model model) {
+
+		Date day = new Date();
+		SimpleDateFormat format = new SimpleDateFormat ("yyyyMMdd");
+		
+		String bgnde =format.format(day);		
+		protectService.insertList(bgnde);
+		
+		System.out.println("ProtectController insertList "+bgnde+" 데이터 추가 완료");
+		return "redirect:/board/protectData";
+	}
+
 }

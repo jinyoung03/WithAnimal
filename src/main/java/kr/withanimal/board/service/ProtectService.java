@@ -40,77 +40,7 @@ public class ProtectService {
 	@Autowired
 	private ProtectDAO protectDAO;
 	
-	//xml를 json으로 변경
-	public int INDENT_FACTOR = 4;
-    public List<ProtectVO> readJson(String bgnde,String endde, String upkind) throws MalformedURLException,IOException {
-    	System.out.println("readJson bgnde: "+bgnde);
-    	System.out.println("readJson endde: "+endde);
-    	List<ProtectVO> list = new ArrayList<ProtectVO>();
-    	try {
-    	 String strUrl =	"http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic?"
-    					+ "bgnde=" +bgnde
-    					+ "&endde=" +endde
-    					+ "&pageNo=10"
-    					+ "&ServiceKey=O2GKwCxkLW84OZXlbc7wuiJE8cAieTSwRG%2FVOe3KQVKnFOoOpxqzYt7CsWezKxah0HuRCGpKAMj%2FqA7lhOG0Vg%3D%3D";
-    	 if(upkind!=null) {
-    		 strUrl += "&upkind="+upkind;
-     	}
-        HttpURLConnection conn = (HttpURLConnection) new URL(strUrl).openConnection();
-        conn.connect();
-        
-        BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
-        BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
-        StringBuffer st = new StringBuffer();
-        String line;
-        
-        while ((line = reader.readLine()) != null) {    
-        	st.append(line);
-        }
-     
-        JSONObject xmlJSONObj = XML.toJSONObject(st.toString());
-        String jsonPrettyPrintString = xmlJSONObj.toString(INDENT_FACTOR);
-        
-        //System.out.println(xmlJSONObj.get("response"));
-        JSONObject job = (JSONObject) xmlJSONObj.get("response");
-        //System.out.println(job.get("body").toString());
-        
-        JSONObject j2 = (JSONObject) job.get("body");
-        JSONObject j3 = (JSONObject) j2.get("items");
-        JSONArray jsonArray = j3.getJSONArray("item");
-        
-        for(int i=0;i<jsonArray.length();i++) {
-        	ProtectVO vo = new ProtectVO();
-        	JSONObject o = (JSONObject) jsonArray.get(i);
-        	vo.setContent_idx(i+1);
-        	vo.setAge(o.get("age").toString());
-        	vo.setCareAddr(o.get("careAddr").toString());
-        	vo.setCareNm(o.get("careNm").toString());
-        	vo.setCareTel(o.get("careTel").toString());
-        	vo.setChargeNm(o.get("chargeNm").toString());
-        	vo.setColorCd(o.get("colorCd").toString());
-        	vo.setDesertionNo(o.get("desertionNo").toString());
-        	vo.setFilename(o.get("filename").toString());
-        	vo.setHappenDt(o.get("happenDt").toString());
-        	vo.setHappenPlace(o.get("happenPlace").toString());
-        	vo.setKindCd(o.get("kindCd").toString());
-        	vo.setNeuterYn(o.get("neuterYn").toString());
-        	vo.setNoticeEdt(o.get("noticeEdt").toString());
-        	vo.setNoticeNo(o.get("noticeNo").toString());
-        	vo.setNoticeSdt(o.get("noticeSdt").toString());
-        	vo.setOfficetel(o.get("officetel").toString());
-        	vo.setOrgNm(o.get("orgNm").toString());
-        	vo.setPopfile(o.get("popfile").toString());
-        	vo.setProcessState(o.get("processState").toString());
-        	vo.setSexCd(o.get("sexCd").toString());
-        	vo.setSpecialMark(o.get("specialMark").toString());
-        	vo.setWeight(o.get("weight").toString());
-        	list.add(vo);
-        }       
-        } catch (JSONException je) {
-            System.out.println(je.toString());
-        }
-    	return list;
-    }	
+	public int INDENT_FACTOR = 4;    
     
 	// 1. 목록보기
 	public Paging<ProtectVO> selectList(String bgnde,String endde, String kind,String state
@@ -206,13 +136,15 @@ public class ProtectService {
 	public void saveXml(String bgnde,String endde){		
 		try {
 			int totalCount = getJsonTotalCount(bgnde, endde);
+			int max = 500; // URL에서 한번에 읽어올 데이터 양
+			if(totalCount==0) return;
 			File file = null;
-			for(int i=1;i<=totalCount/1000;i++) {
+			for(int i=1;i<=((totalCount%max==0)?totalCount/max:totalCount/max+1);i++) {
 				String strUrl =	"http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic?"
 						+ "bgnde=" +bgnde
 						+ "&endde=" +endde
     					+ "&pageNo="+ i
-						+ "&numOfRows=1000"
+						+ "&numOfRows=" + max
 						+ "&ServiceKey=O2GKwCxkLW84OZXlbc7wuiJE8cAieTSwRG%2FVOe3KQVKnFOoOpxqzYt7CsWezKxah0HuRCGpKAMj%2FqA7lhOG0Vg%3D%3D";
 				URL url;
 					url = new URL(strUrl);
@@ -231,7 +163,7 @@ public class ProtectService {
 			    }
 		        sc.close();
 			}
-	        System.out.println(file.getAbsolutePath());
+	        System.out.println(file.exists()?file.getAbsolutePath():"");
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -241,7 +173,77 @@ public class ProtectService {
 		}
     }	
 	
-	//
-	
-	
+	//오늘 데이터만 추가하기
+	public void insertList(String bgnde) {
+		int totalCount, max = 50;
+		try {
+			totalCount = getJsonTotalCount(bgnde, bgnde);
+			if(totalCount==0) return;
+			for(int i=1;i<=((totalCount%max==0)?totalCount/max:totalCount/max+1);i++) {
+				String strUrl =	"http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/abandonmentPublic?"
+						+ "bgnde=" +bgnde
+						+ "&endde=" +bgnde
+						+ "&pageNo="+ i
+						+ "&numOfRows="+max
+						+ "&ServiceKey=O2GKwCxkLW84OZXlbc7wuiJE8cAieTSwRG%2FVOe3KQVKnFOoOpxqzYt7CsWezKxah0HuRCGpKAMj%2FqA7lhOG0Vg%3D%3D";
+				HttpURLConnection conn = (HttpURLConnection) new URL(strUrl).openConnection();
+		        conn.connect();
+		        
+		        BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
+		        BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
+		        StringBuffer st = new StringBuffer();
+		        String line;
+		        
+		        while ((line = reader.readLine()) != null) {    
+		        	st.append(line);
+		        }
+		     
+		        JSONObject xmlJSONObj = XML.toJSONObject(st.toString());
+		        String jsonPrettyPrintString = xmlJSONObj.toString(INDENT_FACTOR);
+		        
+		        //System.out.println(xmlJSONObj.get("response"));
+		        JSONObject job = (JSONObject) xmlJSONObj.get("response");
+		        //System.out.println(job.get("body").toString());
+		        
+		        JSONObject j2 = (JSONObject) job.get("body");
+		        JSONObject j3 = (JSONObject) j2.get("items");
+		        JSONArray jsonArray = j3.getJSONArray("item");
+		        
+		        for(int j=0;j<jsonArray.length();j++) {
+		        	ProtectVO vo = new ProtectVO();
+		        	JSONObject o = (JSONObject) jsonArray.get(j);
+		        	vo.setAge((o.has("age"))?o.get("age").toString():"");
+		        	vo.setCareAddr((o.has("careAddr"))?o.get("careAddr").toString():"");
+		        	vo.setCareNm((o.has("careNm"))?o.get("careNm").toString():"");
+		        	vo.setCareTel((o.has("careTel"))?o.get("careTel").toString():"");
+		        	vo.setChargeNm((o.has("chargeNm"))?o.get("chargeNm").toString():"");
+		        	vo.setColorCd((o.has("colorCd"))?o.get("colorCd").toString():"");
+		        	vo.setDesertionNo((o.has("desertionNo"))?o.get("desertionNo").toString():"");
+		        	vo.setFilename((o.has("filename"))?o.get("filename").toString():"");
+		        	vo.setHappenDt((o.has("happenDt"))?o.get("happenDt").toString():"");
+		        	vo.setHappenPlace((o.has("happenPlace"))?o.get("happenPlace").toString():"");
+		        	vo.setKindCd((o.has("kindCd"))?o.get("kindCd").toString():"");
+		        	vo.setNeuterYn((o.has("neuterYn"))?o.get("neuterYn").toString():"");
+		        	vo.setNoticeEdt((o.has("noticeEdt"))?o.get("noticeEdt").toString():"");
+		        	vo.setNoticeNo((o.has("noticeNo"))?o.get("noticeNo").toString():"");
+		        	vo.setNoticeSdt((o.has("noticeSdt"))?o.get("noticeSdt").toString():"");
+		        	vo.setOfficetel((o.has("officetel"))?o.get("officetel").toString():"");
+		        	vo.setOrgNm((o.has("orgNm"))?o.get("orgNm").toString():"");
+		        	vo.setPopfile((o.has("popfile"))?o.get("popfile").toString():"");
+		        	vo.setProcessState((o.has("processState"))?o.get("processState").toString():"");
+		        	vo.setSexCd((o.has("sexCd"))?o.get("sexCd").toString():"");
+		        	vo.setSpecialMark((o.has("specialMark"))?o.get("specialMark").toString():"");
+		        	vo.setWeight((o.has("weight"))?o.get("weight").toString():"");
+					protectDAO.insert(vo);
+		        }  
+		        System.out.println("ProtectService insertlist: protect_"+bgnde+"_"+i+" 번째 데이터 추가 완료");
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}	
 }
